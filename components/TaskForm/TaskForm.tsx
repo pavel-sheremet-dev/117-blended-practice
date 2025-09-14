@@ -3,7 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import css from "./TaskForm.module.css";
 import type { NewTask } from "@/types/task";
-import { createNewTask } from "@/lib/api";
+import { createNewTask } from "@/lib/api/clientApi";
 import { useRouter } from "next/navigation";
 import { Draft, useDraftStore } from "@/lib/store/draftStore";
 

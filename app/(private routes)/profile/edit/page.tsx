@@ -1,11 +1,14 @@
 "use client";
 
 import Section from "@/components/Section/Section";
+import { useRouter } from "next/navigation";
 
 export default function EditProfileClient() {
   // 1. оновлення юзеру
   // 2. оновлення стану юзера
   // 3. перенаправлення на сторінку профілю
+
+  const router = useRouter();
 
   const handleSubmit = async (formData: FormData) => {
     const username = formData.get("username") as string;
@@ -34,7 +37,9 @@ export default function EditProfileClient() {
 
         <div style={{ display: "flex", gap: 8 }}>
           <button type="submit">Save</button>
-          <button type="button">Cancel</button>
+          <button type="button" onClick={() => router.back()}>
+            Cancel
+          </button>
         </div>
       </form>
     </Section>

@@ -4,12 +4,12 @@ import { Field, Form, Formik, FormikHelpers } from "formik";
 
 import Section from "@/components/Section/Section";
 
-interface AuthUserData {
-  email: string;
-  password: string;
-}
+import { register } from "@/lib/api/clientApi";
+import { Credentials } from "@/lib/api/api";
+import { useAuthStore } from "@/lib/store/authStore";
+import { useRouter } from "next/navigation";
 
-const initialValues: AuthUserData = {
+const initialValues: Credentials = {
   email: "",
   password: "",
 };
@@ -19,18 +19,27 @@ export default function SignUp() {
   // 2. оновлення стану аутентифікації
   // 3. редірект
 
-  const onSubmit = async (
-    values: AuthUserData,
-    actions: FormikHelpers<AuthUserData>
+  const setUser = useAuthStore((state) => state.setUser);
+  const router = useRouter();
+
+  const handleSubmit = async (
+    values: Credentials,
+    actions: FormikHelpers<Credentials>
   ) => {
-    console.log("values", values);
-    actions.resetForm();
+    try {
+      const user = await register(values);
+      actions.resetForm();
+      setUser(user);
+      router.replace("/profile");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <Section>
       <h1>Register page</h1>
-      <Formik initialValues={initialValues} onSubmit={onSubmit}>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         <Form style={{ display: "grid", gap: 12, maxWidth: 300 }}>
           <div style={{ display: "grid", gap: 8 }}>
             <label htmlFor="email">Email</label>
