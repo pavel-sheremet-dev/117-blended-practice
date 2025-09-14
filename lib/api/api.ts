@@ -2,7 +2,7 @@ import { Note, Tag } from "@/types/note";
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: `${process.env.NEXT_FRONTEND_URL}/api`,
   withCredentials: true,
 });
 
